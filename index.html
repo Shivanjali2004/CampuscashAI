@@ -1,0 +1,1403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusCash AI - Smart Student Finance Companion</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%2310b981'/%3E%3Cstop offset='100%25' stop-color='%233b82f6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='24' cy='24' r='22' fill='url(%23g)'/%3E%3Cpath d='M24 14l-8 4 8 4 8-4-8-4z' fill='white'/%3E%3Ctext x='24' y='33' text-anchor='middle' font-size='12' font-weight='bold' fill='white'%3E%E2%82%B9%3C/text%3E%3C/svg%3E">
+    <link rel="stylesheet" href="style3.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Splash Screen -->
+    <div id="splash-screen" class="splash-screen">
+        <div class="splash-content">
+            <div class="splash-logo">
+                <svg width="72" height="72" viewBox="0 0 48 48" fill="none">
+                    <defs>
+                        <linearGradient id="splashGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#10b981"/>
+                            <stop offset="100%" style="stop-color:#3b82f6"/>
+                        </linearGradient>
+                    </defs>
+                    <circle cx="24" cy="24" r="22" fill="url(#splashGrad)"/>
+                    <circle cx="24" cy="24" r="22" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+                    <path d="M24 13 L14 18 L24 23 L34 18 Z" fill="white" opacity="0.95"/>
+                    <rect x="19" y="20" width="10" height="3" rx="1" fill="white" opacity="0.7"/>
+                    <text x="24" y="35" text-anchor="middle" font-size="13" font-weight="700" fill="white" font-family="Inter, sans-serif">₹</text>
+                    <circle class="splash-node" cx="12" cy="14" r="1.5" fill="white"/>
+                    <circle class="splash-node" cx="36" cy="14" r="1.5" fill="white"/>
+                    <circle class="splash-node" cx="12" cy="34" r="1.5" fill="white"/>
+                    <circle class="splash-node" cx="36" cy="34" r="1.5" fill="white"/>
+                    <line x1="12" y1="14" x2="16" y2="17" stroke="white" stroke-width="0.5" opacity="0.5"/>
+                    <line x1="36" y1="14" x2="32" y2="17" stroke="white" stroke-width="0.5" opacity="0.5"/>
+                    <line x1="12" y1="34" x2="16" y2="31" stroke="white" stroke-width="0.5" opacity="0.5"/>
+                    <line x1="36" y1="34" x2="32" y2="31" stroke="white" stroke-width="0.5" opacity="0.5"/>
+                </svg>
+            </div>
+            <h1 class="splash-title">CampusCash<span class="splash-ai"> AI</span></h1>
+            <p class="splash-tagline">Smart Student Finance Companion</p>
+            <div class="splash-loader">
+                <div class="splash-bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confetti Canvas -->
+    <canvas id="confetti-canvas" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;display:none;"></canvas>
+
+    <!-- Global Toast Container (works on all screens) -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <div class="app-container">
+
+        <!-- Setup Screen -->
+        <section id="setup-screen" class="screen hidden">
+            <div class="setup-container">
+                <div class="setup-header">
+                    <div class="logo-large">
+                        <svg class="cc-logo" width="56" height="56" viewBox="0 0 48 48" fill="none">
+                            <defs>
+                                <linearGradient id="logoGradSetup" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#10b981"/>
+                                    <stop offset="100%" style="stop-color:#3b82f6"/>
+                                </linearGradient>
+                            </defs>
+                            <circle cx="24" cy="24" r="22" fill="url(#logoGradSetup)"/>
+                            <circle cx="24" cy="24" r="22" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+                            <path d="M24 13 L14 18 L24 23 L34 18 Z" fill="white" opacity="0.95"/>
+                            <rect x="19" y="20" width="10" height="3" rx="1" fill="white" opacity="0.7"/>
+                            <text x="24" y="35" text-anchor="middle" font-size="13" font-weight="700" fill="white" font-family="Inter, sans-serif">₹</text>
+                            <circle class="logo-node" cx="12" cy="14" r="1.5" fill="white" opacity="0.8"/>
+                            <circle class="logo-node" cx="36" cy="14" r="1.5" fill="white" opacity="0.8"/>
+                            <circle class="logo-node" cx="12" cy="34" r="1.5" fill="white" opacity="0.8"/>
+                            <circle class="logo-node" cx="36" cy="34" r="1.5" fill="white" opacity="0.8"/>
+                            <line x1="12" y1="14" x2="16" y2="17" stroke="white" stroke-width="0.5" opacity="0.4"/>
+                            <line x1="36" y1="14" x2="32" y2="17" stroke="white" stroke-width="0.5" opacity="0.4"/>
+                            <line x1="12" y1="34" x2="16" y2="31" stroke="white" stroke-width="0.5" opacity="0.4"/>
+                            <line x1="36" y1="34" x2="32" y2="31" stroke="white" stroke-width="0.5" opacity="0.4"/>
+                        </svg>
+                    </div>
+                    <h1 class="setup-title">Welcome to CampusCash AI</h1>
+                    <p class="setup-subtitle">Let's set up your financial journey in 30 seconds</p>
+                </div>
+
+                <div class="setup-progress">
+                    <div class="progress-step active" data-step="1">
+                        <span class="step-number">1</span>
+                        <span class="step-label">Profile</span>
+                    </div>
+                    <div class="progress-line"></div>
+                    <div class="progress-step" data-step="2">
+                        <span class="step-number">2</span>
+                        <span class="step-label">Budget</span>
+                    </div>
+                    <div class="progress-line"></div>
+                    <div class="progress-step" data-step="3">
+                        <span class="step-number">3</span>
+                        <span class="step-label">Goals</span>
+                    </div>
+                </div>
+
+                <form id="setup-form" class="setup-form">
+                    <!-- Step 1: Profile -->
+                    <div class="setup-step active" data-step="1">
+                        <div class="form-group">
+                            <label for="student-name">What should we call you?</label>
+                            <input type="text" id="student-name" placeholder="Enter your name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Are you a hosteller or day scholar?</label>
+                            <div class="choice-cards">
+                                <div class="choice-card" data-value="hosteller">
+                                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                        <path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/>
+                                        <rect x="9" y="9" width="2" height="2" rx="0.5"/>
+                                        <rect x="13" y="9" width="2" height="2" rx="0.5"/>
+                                    </svg>
+                                    <span>Hosteller</span>
+                                </div>
+                                <div class="choice-card" data-value="dayscholar">
+                                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                        <path d="M3 9l9-6 9 6M5 21V10l7-4.5 7 4.5v11"/>
+                                        <rect x="9" y="13" width="6" height="8"/>
+                                    </svg>
+                                    <span>Day Scholar</span>
+                                </div>
+                            </div>
+                            <input type="hidden" id="stay-type" required>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Budget -->
+                    <div class="setup-step" data-step="2">
+                        <div class="form-group">
+                            <label for="pocket-money">Monthly Pocket Money</label>
+                            <div class="input-with-icon">
+                                <span class="currency-symbol">₹</span>
+                                <input type="number" id="pocket-money" placeholder="5000" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="monthly-budget">Monthly Budget (How much do you want to spend?)</label>
+                            <div class="input-with-icon">
+                                <span class="currency-symbol">₹</span>
+                                <input type="number" id="monthly-budget" placeholder="4000" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="semester-budget">Semester Budget</label>
+                            <div class="input-with-icon">
+                                <span class="currency-symbol">₹</span>
+                                <input type="number" id="semester-budget" placeholder="25000" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="semester-end">Semester End Date</label>
+                            <input type="date" id="semester-end" required>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Goals -->
+                    <div class="setup-step" data-step="3">
+                        <div class="form-group">
+                            <label>Have a savings goal? (Optional)</label>
+                            <div class="goal-presets">
+                                <div class="goal-preset" data-goal="headphones" data-amount="3000">
+                                    <span class="goal-icon">🎧</span>
+                                    <span>Headphones</span>
+                                </div>
+                                <div class="goal-preset" data-goal="phone" data-amount="15000">
+                                    <span class="goal-icon">📱</span>
+                                    <span>Phone</span>
+                                </div>
+                                <div class="goal-preset" data-goal="laptop" data-amount="50000">
+                                    <span class="goal-icon">💻</span>
+                                    <span>Laptop</span>
+                                </div>
+                                <div class="goal-preset" data-goal="trip" data-amount="10000">
+                                    <span class="goal-icon">✈️</span>
+                                    <span>Trip</span>
+                                </div>
+                                <div class="goal-preset custom-goal" data-goal="custom">
+                                    <span class="goal-icon">⭐</span>
+                                    <span>Custom</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="custom-goal-inputs" class="custom-goal-inputs hidden">
+                            <div class="form-group">
+                                <label for="goal-name">Goal Name</label>
+                                <input type="text" id="goal-name" placeholder="What are you saving for?">
+                            </div>
+                            <div class="form-group">
+                                <label for="goal-amount">Target Amount</label>
+                                <div class="input-with-icon">
+                                    <span class="currency-symbol">₹</span>
+                                    <input type="number" id="goal-amount" placeholder="10000">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="setup-actions">
+                        <button type="button" id="prev-step" class="btn-secondary" style="display: none;">Previous</button>
+                        <button type="button" id="next-step" class="btn-primary">Next</button>
+                        <button type="submit" id="finish-setup" class="btn-primary" style="display: none;">Start Managing 💰</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- Floating Action Button -->
+        <button id="fab-add" class="fab" title="Add Expense" style="display:none;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="12" y1="5" x2="12" y2="19"/>
+                <line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+        </button>
+
+        <!-- Main App -->
+        <section id="main-app" class="screen hidden">
+            <!-- Sidebar -->
+            <nav class="sidebar">
+                <div class="sidebar-header">
+                    <div class="logo">
+                        <svg class="cc-logo" width="36" height="36" viewBox="0 0 48 48" fill="none">
+                            <defs>
+                                <linearGradient id="logoGradSidebar" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#10b981"/>
+                                    <stop offset="100%" style="stop-color:#3b82f6"/>
+                                </linearGradient>
+                            </defs>
+                            <circle cx="24" cy="24" r="22" fill="url(#logoGradSidebar)"/>
+                            <circle cx="24" cy="24" r="22" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+                            <path d="M24 13 L14 18 L24 23 L34 18 Z" fill="white" opacity="0.95"/>
+                            <rect x="19" y="20" width="10" height="3" rx="1" fill="white" opacity="0.7"/>
+                            <text x="24" y="35" text-anchor="middle" font-size="13" font-weight="700" fill="white" font-family="Inter, sans-serif">₹</text>
+                            <circle class="logo-node" cx="12" cy="14" r="1.5" fill="white" opacity="0.8"/>
+                            <circle class="logo-node" cx="36" cy="14" r="1.5" fill="white" opacity="0.8"/>
+                            <circle class="logo-node" cx="12" cy="34" r="1.5" fill="white" opacity="0.8"/>
+                            <circle class="logo-node" cx="36" cy="34" r="1.5" fill="white" opacity="0.8"/>
+                            <line x1="12" y1="14" x2="16" y2="17" stroke="white" stroke-width="0.5" opacity="0.4"/>
+                            <line x1="36" y1="14" x2="32" y2="17" stroke="white" stroke-width="0.5" opacity="0.4"/>
+                            <line x1="12" y1="34" x2="16" y2="31" stroke="white" stroke-width="0.5" opacity="0.4"/>
+                            <line x1="36" y1="34" x2="32" y2="31" stroke="white" stroke-width="0.5" opacity="0.4"/>
+                        </svg>
+                        <span>CampusCash<span class="logo-ai"> AI</span></span>
+                    </div>
+                </div>
+                <ul class="nav-menu">
+                    <li class="nav-item active" data-page="dashboard">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="7" height="7" rx="1"/>
+                            <rect x="14" y="3" width="7" height="7" rx="1"/>
+                            <rect x="3" y="14" width="7" height="7" rx="1"/>
+                            <rect x="14" y="14" width="7" height="7" rx="1"/>
+                        </svg>
+                        <span>Dashboard</span>
+                    </li>
+                    <li class="nav-item" data-page="expenses">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>
+                        </svg>
+                        <span>Expenses</span>
+                    </li>
+                    <li class="nav-item" data-page="analytics">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 20V10M12 20V4M6 20v-6"/>
+                        </svg>
+                        <span>Analytics</span>
+                    </li>
+                    <li class="nav-item" data-page="semester">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="4" width="18" height="18" rx="2"/>
+                            <line x1="16" y1="2" x2="16" y2="6"/>
+                            <line x1="8" y1="2" x2="8" y2="6"/>
+                            <line x1="3" y1="10" x2="21" y2="10"/>
+                        </svg>
+                        <span>Semester</span>
+                    </li>
+                    <li class="nav-item" data-page="savings">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M19 5c-1.5 0-2.8 1.4-3 2-3.5-1.5-11-.5-11 5 0 1.8 1.5 3.7 3 5"/>
+                            <path d="M11 21c3 1 6.5.5 8-2s-.5-5.5-2-7c-1.5 1.5-3 3-3 5 0 2 1 3 2 4"/>
+                            <circle cx="12" cy="7" r="2"/>
+                        </svg>
+                        <span>Savings</span>
+                    </li>
+                    <li class="nav-item" data-page="reminders">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                            <path d="M13.73 21a2 2 0 01-3.46 0"/>
+                        </svg>
+                        <span>Reminders</span>
+                    </li>
+                    <li class="nav-item" data-page="events">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                        </svg>
+                        <span>Events</span>
+                    </li>
+                    <li class="nav-item" data-page="exam">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 19.5A2.5 2.5 0 016.5 17H20"/>
+                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/>
+                        </svg>
+                        <span>Exam Mode</span>
+                    </li>
+                    <li class="nav-item" data-page="settings">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="3"/>
+                            <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/>
+                        </svg>
+                        <span>Settings</span>
+                    </li>
+                </ul>
+                <div class="sidebar-footer">
+                    <div class="user-profile">
+                        <div class="avatar" id="user-avatar">S</div>
+                        <div class="user-info">
+                            <span class="user-name" id="sidebar-name">Student</span>
+                            <span class="user-plan">Free Plan</span>
+                        </div>
+                    </div>
+                    <div class="developer-branding">
+                        CampusCash AI v1.0 • Designed &amp; Developed by Shivanjali Pandey
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Main Content -->
+            <main class="main-content">
+                <!-- Theme Toggle -->
+                <button class="theme-toggle" id="theme-toggle" title="Toggle Theme">
+                    <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"/>
+                        <line x1="12" y1="1" x2="12" y2="3"/>
+                        <line x1="12" y1="21" x2="12" y2="23"/>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                        <line x1="1" y1="12" x2="3" y2="12"/>
+                        <line x1="21" y1="12" x2="23" y2="12"/>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                    </svg>
+                    <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+                    </svg>
+                </button>
+
+                <!-- Notifications Container (legacy, kept for compat) -->
+                <div id="notifications" class="notifications-container"></div>
+
+                <!-- Dashboard Page -->
+                <div id="page-dashboard" class="page active">
+                    <header class="page-header">
+                        <div class="greeting">
+                            <h1 id="greeting-text">Good Morning!</h1>
+                            <p class="greeting-sub" id="greeting-name">Welcome back</p>
+                        </div>
+                        <div class="header-actions">
+                            <button class="btn-secondary" id="quick-add-btn">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="12" y1="5" x2="12" y2="19"/>
+                                    <line x1="5" y1="12" x2="19" y2="12"/>
+                                </svg>
+                                Quick Add
+                            </button>
+                        </div>
+                    </header>
+
+                    <!-- Bento Grid Dashboard -->
+                    <div class="bento-grid">
+                        <!-- Main Balance Card - Large -->
+                        <div class="bento-card large balance-card">
+                            <div class="card-glow"></div>
+                            <div class="balance-content">
+                                <div class="balance-info">
+                                    <span class="balance-label">Current Balance</span>
+                                    <h2 class="balance-amount" id="current-balance">₹0</h2>
+                                    <span class="balance-sub">Remaining this month</span>
+                                </div>
+                                <div class="balance-ring">
+                                    <svg class="progress-ring" width="140" height="140">
+                                        <circle class="progress-ring-bg" cx="70" cy="70" r="60"/>
+                                        <circle class="progress-ring-fill" id="balance-ring" cx="70" cy="70" r="60"/>
+                                    </svg>
+                                    <div class="ring-content">
+                                        <span class="ring-value" id="budget-percent">0%</span>
+                                        <span class="ring-label">Budget Used</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Today's Safe Spending -->
+                        <div class="bento-card safe-spend">
+                            <div class="card-icon green">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                                    <path d="M9 12l2 2 4-4"/>
+                                </svg>
+                            </div>
+                            <div class="card-content">
+                                <span class="card-label">Today's Safe Limit</span>
+                                <span class="card-value" id="safe-spend">₹0</span>
+                                <span class="card-hint">You can spend this today</span>
+                            </div>
+                        </div>
+
+                        <!-- Financial Health Score -->
+                        <div class="bento-card health-score">
+                            <div class="card-icon blue">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                                </svg>
+                            </div>
+                            <div class="card-content">
+                                <span class="card-label">Health Score</span>
+                                <div class="score-display">
+                                    <span class="card-value" id="health-score">0</span>
+                                    <span class="score-max">/100</span>
+                                </div>
+                                <div class="score-bar">
+                                    <div class="score-fill" id="score-fill"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Semester Progress -->
+                        <div class="bento-card semester-progress">
+                            <div class="card-header">
+                                <span class="card-title">Semester Budget</span>
+                                <span class="card-badge" id="semester-days">0 days left</span>
+                            </div>
+                            <div class="semester-stats">
+                                <div class="semester-stat">
+                                    <span class="stat-value" id="semester-left">₹0</span>
+                                    <span class="stat-label">Remaining</span>
+                                </div>
+                                <div class="semester-stat">
+                                    <span class="stat-value" id="semester-spent">₹0</span>
+                                    <span class="stat-label">Spent</span>
+                                </div>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="semester-progress-bar"></div>
+                            </div>
+                        </div>
+
+                        <!-- Savings Goal -->
+                        <div class="bento-card savings-goal">
+                            <div class="card-header">
+                                <span class="card-title">Savings Goal</span>
+                                <span class="card-badge goal-badge" id="goal-badge">--</span>
+                            </div>
+                            <div class="goal-progress">
+                                <div class="goal-amounts">
+                                    <span class="saved" id="goal-saved">₹0</span>
+                                    <span class="target" id="goal-target">of ₹0</span>
+                                </div>
+                                <div class="progress-bar goal-bar">
+                                    <div class="progress-fill" id="goal-progress-bar"></div>
+                                </div>
+                                <span class="goal-eta" id="goal-eta">Set a goal to track progress</span>
+                            </div>
+                        </div>
+
+                        <!-- AI Financial Insights -->
+                        <div class="bento-card ai-insights">
+                            <div class="card-header">
+                                <span class="card-title">🤖 AI Financial Insights</span>
+                                <div class="ai-pulse-dot"></div>
+                            </div>
+                            <div class="ai-insights-list" id="ai-insights-list">
+                                <div class="ai-insight-item">
+                                    <span class="ai-insight-icon">💡</span>
+                                    <span class="ai-insight-text">Add some expenses to get personalized AI insights</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Quick Stats Grid -->
+                        <div class="bento-card stats-grid">
+                            <div class="mini-stat">
+                                <span class="mini-stat-value" id="weekly-spend">₹0</span>
+                                <span class="mini-stat-label">This Week</span>
+                            </div>
+                            <div class="mini-stat">
+                                <span class="mini-stat-value" id="monthly-spend">₹0</span>
+                                <span class="mini-stat-label">This Month</span>
+                            </div>
+                            <div class="mini-stat">
+                                <span class="mini-stat-value" id="avg-daily">₹0</span>
+                                <span class="mini-stat-label">Avg/Day</span>
+                            </div>
+                            <div class="mini-stat">
+                                <span class="mini-stat-value" id="total-saved">₹0</span>
+                                <span class="mini-stat-label">Saved</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Alerts & Notifications Panel -->
+                    <div class="section-card alerts-panel" id="dashboard-alerts">
+                        <div class="section-header">
+                            <h3>🔔 Alerts &amp; Notifications</h3>
+                            <span class="alerts-count" id="alerts-count">0</span>
+                        </div>
+                        <div class="alerts-list" id="alerts-list">
+                            <div class="empty-state-small"><span>No alerts — your finances look healthy!</span></div>
+                        </div>
+                    </div>
+
+                    <!-- Upcoming Reminders Section -->
+                    <div class="section-card" id="dashboard-reminders">
+                        <div class="section-header">
+                            <h3>Upcoming Reminders</h3>
+                            <a href="#" class="see-all" data-page="reminders">See All</a>
+                        </div>
+                        <div class="reminder-list" id="upcoming-reminders">
+                            <div class="empty-state-small">
+                                <span>No upcoming reminders</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Expenses Page -->
+                <div id="page-expenses" class="page">
+                    <header class="page-header">
+                        <div>
+                            <h1>Expenses</h1>
+                            <p class="page-sub">Track and manage your spending</p>
+                        </div>
+                        <div class="header-actions">
+                            <button class="btn-primary" id="add-expense-btn">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="12" y1="5" x2="12" y2="19"/>
+                                    <line x1="5" y1="12" x2="19" y2="12"/>
+                                </svg>
+                                Add Expense
+                            </button>
+                        </div>
+                    </header>
+
+                    <!-- Expense Toolbar -->
+                    <div class="expense-toolbar">
+                        <div class="search-box">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8"/>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                            </svg>
+                            <input type="text" id="expense-search" placeholder="Search expenses...">
+                        </div>
+                        <div class="filter-dropdowns">
+                            <select id="category-filter" class="dropdown">
+                                <option value="all">All Categories</option>
+                                <option value="canteen">🍔 Canteen</option>
+                                <option value="tea">☕ Tea/Coffee</option>
+                                <option value="bus">🚌 Bus</option>
+                                <option value="books">📚 Books</option>
+                                <option value="printout">🖨 Printout</option>
+                                <option value="mess">🍜 Mess</option>
+                                <option value="food">🍕 Food</option>
+                                <option value="entertainment">🎬 Entertainment</option>
+                                <option value="medical">💊 Medical</option>
+                                <option value="shopping">🛒 Shopping</option>
+                                <option value="grocery">🛍 Grocery</option>
+                                <option value="other">📦 Other</option>
+                            </select>
+                            <select id="month-filter" class="dropdown">
+                                <option value="all">All Months</option>
+                                <option value="this-month">This Month</option>
+                                <option value="last-month">Last Month</option>
+                                <option value="this-week">This Week</option>
+                                <option value="today">Today</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Expenses Summary -->
+                    <div class="expense-summary" id="expense-summary">
+                        <div class="summary-item">
+                            <span class="summary-label">Total</span>
+                            <span class="summary-value" id="expense-total">₹0</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Count</span>
+                            <span class="summary-value" id="expense-count">0</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Average</span>
+                            <span class="summary-value" id="expense-avg">₹0</span>
+                        </div>
+                    </div>
+
+                    <!-- Expenses Grid -->
+                    <div class="expenses-grid" id="expenses-list">
+                        <div class="empty-state">
+                            <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                                <rect x="2" y="5" width="20" height="14" rx="2"/>
+                                <line x1="2" y1="10" x2="22" y2="10"/>
+                            </svg>
+                            <h4>No expenses yet</h4>
+                            <p>Start tracking your spending with Add Expense</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Analytics Page -->
+                <div id="page-analytics" class="page">
+                    <header class="page-header">
+                        <h1>Analytics</h1>
+                        <p class="page-sub">Visualize your spending patterns</p>
+                    </header>
+
+                    <div class="analytics-grid">
+                        <div class="chart-card large">
+                            <h3>Monthly Spending</h3>
+                            <div class="chart-container">
+                                <canvas id="monthlyChart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="chart-card">
+                            <h3>Category Distribution</h3>
+                            <div class="chart-container">
+                                <canvas id="categoryChart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="chart-card">
+                            <h3>Weekly Breakdown</h3>
+                            <div class="chart-container">
+                                <canvas id="weeklyChart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="chart-card">
+                            <h3>Savings Trend</h3>
+                            <div class="chart-container">
+                                <canvas id="savingsChart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="chart-card wide">
+                            <h3>Top Spending Categories</h3>
+                            <div class="top-categories" id="top-categories">
+                                <div class="empty-state-small">Add expenses to see top categories</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Semester Page -->
+                <div id="page-semester" class="page">
+                    <header class="page-header">
+                        <h1>Semester Planner</h1>
+                        <p class="page-sub">Track your semester budget</p>
+                    </header>
+
+                    <div class="semester-overview">
+                        <div class="semester-card main">
+                            <div class="semester-ring">
+                                <svg class="progress-ring large" width="200" height="200">
+                                    <circle class="progress-ring-bg" cx="100" cy="100" r="85"/>
+                                    <circle class="progress-ring-fill" id="semester-ring" cx="100" cy="100" r="85"/>
+                                </svg>
+                                <div class="ring-content large">
+                                    <span class="ring-value large" id="semester-percent">0%</span>
+                                    <span class="ring-label">Budget Used</span>
+                                </div>
+                            </div>
+                            <div class="semester-details">
+                                <div class="semester-detail">
+                                    <span class="detail-label">Total Budget</span>
+                                    <span class="detail-value" id="semester-total">₹0</span>
+                                </div>
+                                <div class="semester-detail">
+                                    <span class="detail-label">Spent</span>
+                                    <span class="detail-value" id="semester-spent-detail">₹0</span>
+                                </div>
+                                <div class="semester-detail">
+                                    <span class="detail-label">Remaining</span>
+                                    <span class="detail-value highlight" id="semester-remaining">₹0</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="semester-info-cards">
+                            <div class="info-card">
+                                <span class="info-icon">📅</span>
+                                <div class="info-content">
+                                    <span class="info-label">Days Left</span>
+                                    <span class="info-value" id="days-left">0</span>
+                                </div>
+                            </div>
+                            <div class="info-card">
+                                <span class="info-icon">💰</span>
+                                <div class="info-content">
+                                    <span class="info-label">Per Day Left</span>
+                                    <span class="info-value" id="per-day">₹0</span>
+                                </div>
+                            </div>
+                            <div class="info-card">
+                                <span class="info-icon">📊</span>
+                                <div class="info-content">
+                                    <span class="info-label">Avg Daily Spend</span>
+                                    <span class="info-value" id="avg-semester-daily">₹0</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="semester-progress-card">
+                            <h3>Semester Progress</h3>
+                            <div class="progress-timeline">
+                                <div class="timeline-bar">
+                                    <div class="timeline-fill" id="timeline-fill"></div>
+                                    <div class="timeline-marker" id="timeline-marker"></div>
+                                </div>
+                                <div class="timeline-labels">
+                                    <span>Start</span>
+                                    <span id="timeline-date">--</span>
+                                    <span>End</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Savings Page -->
+                <div id="page-savings" class="page">
+                    <header class="page-header">
+                        <h1>Savings Goal</h1>
+                        <p class="page-sub">Track your progress towards your goal</p>
+                    </header>
+
+                    <div class="savings-container">
+                        <div class="savings-card">
+                            <div class="goal-visual" id="savings-visual">
+                                <div class="goal-icon-large">🎯</div>
+                                <div class="goal-info">
+                                    <span class="goal-name" id="goal-name-display">Set a Goal</span>
+                                    <span class="goal-dates" id="goal-dates">Start saving to see your progress</span>
+                                </div>
+                            </div>
+                            <div class="savings-progress">
+                                <div class="savings-amounts">
+                                    <div class="savings-amount">
+                                        <span class="amount-label">Saved</span>
+                                        <span class="amount-value green" id="savings-saved">₹0</span>
+                                    </div>
+                                    <div class="savings-amount">
+                                        <span class="amount-label">Target</span>
+                                        <span class="amount-value" id="savings-target">₹0</span>
+                                    </div>
+                                    <div class="savings-amount">
+                                        <span class="amount-label">Remaining</span>
+                                        <span class="amount-value" id="savings-remaining">₹0</span>
+                                    </div>
+                                </div>
+                                <div class="progress-bar savings-bar">
+                                    <div class="progress-fill" id="savings-progress-fill"></div>
+                                </div>
+                                <div class="savings-eta" id="savings-eta">Add to savings to see ETA</div>
+                            </div>
+                            <div class="savings-actions">
+                                <button class="btn-primary" id="add-savings-btn">Add to Savings</button>
+                                <button class="btn-secondary" id="edit-goal-btn">Edit Goal</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Add Savings Modal -->
+                    <div id="savings-modal" class="modal">
+                        <div class="modal-content small">
+                            <div class="modal-header">
+                                <h3>Add to Savings</h3>
+                                <button class="close-modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="input-with-icon large">
+                                    <span class="currency-symbol">₹</span>
+                                    <input type="number" id="add-savings-amount" placeholder="Enter amount">
+                                </div>
+                                <div class="quick-amount-presets">
+                                    <button class="preset-btn" data-amount="500">₹500</button>
+                                    <button class="preset-btn" data-amount="1000">₹1000</button>
+                                    <button class="preset-btn" data-amount="2000">₹2000</button>
+                                </div>
+                                <button class="btn-primary full-width" id="confirm-savings">Add</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Edit Goal Modal -->
+                    <div id="goal-modal" class="modal">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3>Edit Savings Goal</h3>
+                                <button class="close-modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label>Goal Name</label>
+                                    <input type="text" id="edit-goal-name" placeholder="What are you saving for?">
+                                </div>
+                                <div class="form-group">
+                                    <label>Target Amount</label>
+                                    <div class="input-with-icon">
+                                        <span class="currency-symbol">₹</span>
+                                        <input type="number" id="edit-goal-amount" placeholder="10000">
+                                    </div>
+                                </div>
+                                <button class="btn-primary full-width" id="save-goal">Save Goal</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reminders Page -->
+                <div id="page-reminders" class="page">
+                    <header class="page-header">
+                        <h1>Reminders</h1>
+                        <p class="page-sub">Never miss a payment</p>
+                    </header>
+
+                    <div class="reminders-container">
+                        <button class="add-reminder-btn" id="add-reminder-btn">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="12" y1="5" x2="12" y2="19"/>
+                                <line x1="5" y1="12" x2="19" y2="12"/>
+                            </svg>
+                            Add Reminder
+                        </button>
+
+                        <div class="reminders-list" id="reminders-list">
+                            <div class="empty-state">
+                                <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                                    <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                                    <path d="M13.73 21a2 2 0 01-3.46 0"/>
+                                </svg>
+                                <h4>No reminders</h4>
+                                <p>Set up payment reminders to stay on track</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Add Reminder Modal -->
+                    <div id="reminder-modal" class="modal">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3>Add Reminder</h3>
+                                <button class="close-modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="reminder-presets">
+                                    <button class="reminder-preset" data-type="hostel-fee">
+                                        <span class="preset-icon">🏠</span>
+                                        <span>Hostel Fee</span>
+                                    </button>
+                                    <button class="reminder-preset" data-type="mess-fee">
+                                        <span class="preset-icon">🍜</span>
+                                        <span>Mess Fee</span>
+                                    </button>
+                                    <button class="reminder-preset" data-type="mobile">
+                                        <span class="preset-icon">📱</span>
+                                        <span>Mobile Recharge</span>
+                                    </button>
+                                    <button class="reminder-preset" data-type="exam-fee">
+                                        <span class="preset-icon">📝</span>
+                                        <span>Exam Fee</span>
+                                    </button>
+                                    <button class="reminder-preset" data-type="event">
+                                        <span class="preset-icon">🎉</span>
+                                        <span>College Event</span>
+                                    </button>
+                                    <button class="reminder-preset" data-type="custom">
+                                        <span class="preset-icon">⭐</span>
+                                        <span>Custom</span>
+                                    </button>
+                                </div>
+                                <div class="reminder-form hidden" id="reminder-form">
+                                    <div class="form-group">
+                                        <label>Reminder Name</label>
+                                        <input type="text" id="reminder-name" placeholder="Enter name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Amount</label>
+                                        <div class="input-with-icon">
+                                            <span class="currency-symbol">₹</span>
+                                            <input type="number" id="reminder-amount" placeholder="Enter amount">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Due Date</label>
+                                        <input type="date" id="reminder-date">
+                                    </div>
+                                    <button class="btn-primary full-width" id="save-reminder">Save Reminder</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Events Page -->
+                <div id="page-events" class="page">
+                    <header class="page-header">
+                        <h1>Event Mode</h1>
+                        <p class="page-sub">Reserve budget for special occasions</p>
+                    </header>
+
+                    <div class="events-container">
+                        <div class="event-presets">
+                            <h3>Quick Event</h3>
+                            <div class="event-grid">
+                                <div class="event-card" data-event="fest">
+                                    <span class="event-icon">🎪</span>
+                                    <span class="event-name">College Fest</span>
+                                </div>
+                                <div class="event-card" data-event="trip">
+                                    <span class="event-icon">✈️</span>
+                                    <span class="event-name">Trip</span>
+                                </div>
+                                <div class="event-card" data-event="birthday">
+                                    <span class="event-icon">🎂</span>
+                                    <span class="event-name">Birthday</span>
+                                </div>
+                                <div class="event-card" data-event="hackathon">
+                                    <span class="event-icon">💻</span>
+                                    <span class="event-name">Hackathon</span>
+                                </div>
+                                <div class="event-card" data-event="workshop">
+                                    <span class="event-icon">🔧</span>
+                                    <span class="event-name">Workshop</span>
+                                </div>
+                                <div class="event-card" data-event="custom">
+                                    <span class="event-icon">⭐</span>
+                                    <span class="event-name">Custom</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="reserved-budget">
+                            <h3>Reserved Budget</h3>
+                            <div class="reserved-amount" id="reserved-amount">₹0</div>
+                            <p class="reserved-hint">This amount is set aside from your spending budget</p>
+                        </div>
+
+                        <div class="active-events" id="active-events">
+                            <h3>Active Events</h3>
+                            <div class="events-list" id="events-list">
+                                <div class="empty-state-small">No events reserved</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Event Modal -->
+                    <div id="event-modal" class="modal">
+                        <div class="modal-content small">
+                            <div class="modal-header">
+                                <h3 id="event-modal-title">Reserve for Event</h3>
+                                <button class="close-modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label>Event Name</label>
+                                    <input type="text" id="event-name" placeholder="Enter event name">
+                                </div>
+                                <div class="form-group">
+                                    <label>Amount to Reserve</label>
+                                    <div class="input-with-icon">
+                                        <span class="currency-symbol">₹</span>
+                                        <input type="number" id="event-amount" placeholder="Enter amount">
+                                    </div>
+                                </div>
+                                <button class="btn-primary full-width" id="save-event">Reserve Budget</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Exam Mode Page -->
+                <div id="page-exam" class="page">
+                    <header class="page-header">
+                        <h1>Exam Mode</h1>
+                        <p class="page-sub">Track exam-related expenses separately</p>
+                    </header>
+
+                    <div class="exam-container">
+                        <div class="exam-budget-card">
+                            <div class="exam-header">
+                                <h3>Exam Budget</h3>
+                                <div class="exam-toggle">
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="exam-mode-toggle">
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                    <span id="exam-status">Disabled</span>
+                                </div>
+                            </div>
+                            <div id="exam-budget-input" class="hidden">
+                                <div class="form-group">
+                                    <label>Set Exam Budget</label>
+                                    <div class="input-with-icon">
+                                        <span class="currency-symbol">₹</span>
+                                        <input type="number" id="exam-budget-amount" placeholder="5000">
+                                    </div>
+                                </div>
+                                <button class="btn-primary" id="start-exam-mode">Start Tracking</button>
+                            </div>
+                        </div>
+
+                        <div id="exam-active-content" class="hidden">
+                            <div class="exam-stats">
+                                <div class="exam-stat">
+                                    <span class="exam-stat-label">Budget</span>
+                                    <span class="exam-stat-value" id="exam-budget-display">₹0</span>
+                                </div>
+                                <div class="exam-stat">
+                                    <span class="exam-stat-label">Spent</span>
+                                    <span class="exam-stat-value" id="exam-spent">₹0</span>
+                                </div>
+                                <div class="exam-stat">
+                                    <span class="exam-stat-label">Remaining</span>
+                                    <span class="exam-stat-value highlight" id="exam-remaining">₹0</span>
+                                </div>
+                            </div>
+
+                            <div class="exam-categories">
+                                <h4>Add Exam Expense</h4>
+                                <div class="exam-cat-grid">
+                                    <button class="exam-cat" data-cat="books">
+                                        <span>📚</span>
+                                        <span>Books</span>
+                                    </button>
+                                    <button class="exam-cat" data-cat="stationery">
+                                        <span>✏️</span>
+                                        <span>Stationery</span>
+                                    </button>
+                                    <button class="exam-cat" data-cat="printouts">
+                                        <span>🖨</span>
+                                        <span>Printouts</span>
+                                    </button>
+                                    <button class="exam-cat" data-cat="lab">
+                                        <span>🔬</span>
+                                        <span>Lab Materials</span>
+                                    </button>
+                                    <button class="exam-cat" data-cat="project">
+                                        <span>📊</span>
+                                        <span>Project</span>
+                                    </button>
+                                    <button class="exam-cat" data-cat="other">
+                                        <span>📦</span>
+                                        <span>Other</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="exam-expenses-list" id="exam-expenses">
+                                <h4>Exam Expenses</h4>
+                                <div id="exam-expenses-content">
+                                    <div class="empty-state-small">No exam expenses yet</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Exam Expense Modal -->
+                    <div id="exam-expense-modal" class="modal">
+                        <div class="modal-content small">
+                            <div class="modal-header">
+                                <h3 id="exam-expense-title">Add Exam Expense</h3>
+                                <button class="close-modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="input-with-icon large">
+                                    <span class="currency-symbol">₹</span>
+                                    <input type="number" id="exam-expense-amount" placeholder="Enter amount">
+                                </div>
+                                <input type="text" id="exam-expense-note" class="quick-note" placeholder="Note (optional)">
+                                <button class="btn-primary full-width" id="confirm-exam-expense">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Settings Page (opens drawer) -->
+                <div id="page-settings" class="page">
+                    <header class="page-header">
+                        <div>
+                            <h1>Settings</h1>
+                            <p class="page-sub">Manage your profile &amp; preferences</p>
+                        </div>
+                    </header>
+                    <div class="settings-page-trigger">
+                        <button class="settings-open-btn" id="open-settings-drawer">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+                            Open Settings
+                        </button>
+                    </div>
+                    <input type="file" id="import-file" accept=".json" style="display:none;">
+                </div>
+            </main>
+        </section>
+    </div>
+
+    <!-- Quick Add Modal -->
+    <div id="quick-add-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add Expense</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="quick-categories">
+                <button class="quick-cat" data-category="canteen" data-icon="🍔">
+                    <span class="cat-icon">🍔</span>
+                    <span class="cat-name">Canteen</span>
+                </button>
+                <button class="quick-cat" data-category="tea" data-icon="☕">
+                    <span class="cat-icon">☕</span>
+                    <span class="cat-name">Tea/Coffee</span>
+                </button>
+                <button class="quick-cat" data-category="bus" data-icon="🚌">
+                    <span class="cat-icon">🚌</span>
+                    <span class="cat-name">Bus</span>
+                </button>
+                <button class="quick-cat" data-category="books" data-icon="📚">
+                    <span class="cat-icon">📚</span>
+                    <span class="cat-name">Books</span>
+                </button>
+                <button class="quick-cat" data-category="printout" data-icon="🖨">
+                    <span class="cat-icon">🖨</span>
+                    <span class="cat-name">Printout</span>
+                </button>
+                <button class="quick-cat" data-category="mess" data-icon="🍜">
+                    <span class="cat-icon">🍜</span>
+                    <span class="cat-name">Mess</span>
+                </button>
+                <button class="quick-cat" data-category="food" data-icon="🍕">
+                    <span class="cat-icon">🍕</span>
+                    <span class="cat-name">Food</span>
+                </button>
+                <button class="quick-cat" data-category="entertainment" data-icon="🎬">
+                    <span class="cat-icon">🎬</span>
+                    <span class="cat-name">Entertainment</span>
+                </button>
+                <button class="quick-cat" data-category="medical" data-icon="💊">
+                    <span class="cat-icon">💊</span>
+                    <span class="cat-name">Medical</span>
+                </button>
+                <button class="quick-cat" data-category="shopping" data-icon="🛒">
+                    <span class="cat-icon">🛒</span>
+                    <span class="cat-name">Shopping</span>
+                </button>
+                <button class="quick-cat" data-category="grocery" data-icon="🛍">
+                    <span class="cat-icon">🛍</span>
+                    <span class="cat-name">Grocery</span>
+                </button>
+                <button class="quick-cat" data-category="other" data-icon="📦">
+                    <span class="cat-icon">📦</span>
+                    <span class="cat-name">Other</span>
+                </button>
+            </div>
+            <div id="quick-add-amount" class="quick-amount-input hidden">
+                <div class="amount-header">
+                    <span class="selected-category" id="selected-cat-display">🍔 Canteen</span>
+                </div>
+                <div class="amount-input-group">
+                    <span class="currency-symbol">₹</span>
+                    <input type="number" id="quick-amount" placeholder="0" autofocus>
+                </div>
+                <div class="quick-amount-presets">
+                    <button class="preset-btn" data-amount="50">₹50</button>
+                    <button class="preset-btn" data-amount="100">₹100</button>
+                    <button class="preset-btn" data-amount="200">₹200</button>
+                    <button class="preset-btn" data-amount="500">₹500</button>
+                </div>
+                <input type="text" id="quick-note" class="quick-note" placeholder="Add a note (optional)">
+                <div class="quick-actions">
+                    <button class="btn-secondary" id="cancel-quick-add">Cancel</button>
+                    <button class="btn-primary" id="confirm-quick-add">Add Expense</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Drawer -->
+    <div id="settings-overlay" class="settings-overlay"></div>
+    <aside id="settings-drawer" class="settings-drawer">
+        <div class="settings-drawer-inner">
+            <div class="sd-header">
+                <div class="sd-header-left">
+                    <div class="sd-logo">
+                        <svg width="32" height="32" viewBox="0 0 48 48" fill="none">
+                            <defs><linearGradient id="sdGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#10b981"/><stop offset="100%" style="stop-color:#3b82f6"/></linearGradient></defs>
+                            <circle cx="24" cy="24" r="22" fill="url(#sdGrad)"/>
+                            <path d="M24 13 L14 18 L24 23 L34 18 Z" fill="white" opacity="0.95"/>
+                            <text x="24" y="35" text-anchor="middle" font-size="13" font-weight="700" fill="white" font-family="Inter,sans-serif">₹</text>
+                        </svg>
+                    </div>
+                    <div>
+                        <h2 class="sd-title">Settings</h2>
+                        <p class="sd-subtitle">Profile &amp; Preferences</p>
+                    </div>
+                </div>
+                <button class="sd-close" id="close-settings-drawer">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+
+            <div class="sd-section">
+                <div class="sd-profile-card">
+                    <div class="sd-avatar" id="sd-avatar">S</div>
+                    <div class="sd-profile-info">
+                        <h3 id="sd-name">Student</h3>
+                        <p id="sd-stay-badge" class="sd-badge">Hosteller</p>
+                    </div>
+                    <button class="sd-edit-profile-btn" id="sd-edit-profile-btn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                        Edit Profile
+                    </button>
+                </div>
+
+                <div class="sd-items">
+                    <div class="sd-item">
+                        <div class="sd-item-icon" style="background:rgba(16,185,129,0.12);color:#10b981;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                        </div>
+                        <div class="sd-item-info"><span class="sd-item-label">Name</span><span class="sd-item-value" id="setting-name">--</span></div>
+                        <button class="sd-item-edit" data-setting="name">Edit</button>
+                    </div>
+                    <div class="sd-item">
+                        <div class="sd-item-icon" style="background:rgba(59,130,246,0.12);color:#3b82f6;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+                        </div>
+                        <div class="sd-item-info"><span class="sd-item-label">Accommodation</span><span class="sd-item-value" id="setting-stay">--</span></div>
+                        <button class="sd-item-edit" data-setting="stay">Edit</button>
+                    </div>
+                    <div class="sd-item">
+                        <div class="sd-item-icon" style="background:rgba(245,158,11,0.12);color:#f59e0b;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+                        </div>
+                        <div class="sd-item-info"><span class="sd-item-label">Monthly Pocket Money</span><span class="sd-item-value" id="setting-pocket">₹0</span></div>
+                        <button class="sd-item-edit" data-setting="pocket">Edit</button>
+                    </div>
+                    <div class="sd-item">
+                        <div class="sd-item-icon" style="background:rgba(16,185,129,0.12);color:#10b981;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+                        </div>
+                        <div class="sd-item-info"><span class="sd-item-label">Monthly Budget</span><span class="sd-item-value" id="setting-budget">₹0</span></div>
+                        <button class="sd-item-edit" data-setting="budget">Edit</button>
+                    </div>
+                    <div class="sd-item">
+                        <div class="sd-item-icon" style="background:rgba(139,92,246,0.12);color:#8b5cf6;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+                        </div>
+                        <div class="sd-item-info"><span class="sd-item-label">Semester Budget</span><span class="sd-item-value" id="setting-semester">₹0</span></div>
+                        <button class="sd-item-edit" data-setting="semester">Edit</button>
+                    </div>
+                    <div class="sd-item">
+                        <div class="sd-item-icon" style="background:rgba(239,68,68,0.12);color:#ef4444;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                        </div>
+                        <div class="sd-item-info"><span class="sd-item-label">Semester End Date</span><span class="sd-item-value" id="setting-semester-end">--</span></div>
+                        <button class="sd-item-edit" data-setting="semester-end">Edit</button>
+                    </div>
+                    <div class="sd-item">
+                        <div class="sd-item-icon" style="background:rgba(16,185,129,0.12);color:#10b981;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        </div>
+                        <div class="sd-item-info"><span class="sd-item-label">Savings Goal</span><span class="sd-item-value" id="sd-savings-goal">Not set</span></div>
+                        <button class="sd-item-edit" id="sd-edit-goal-nav">Edit</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sd-section">
+                <h4 class="sd-section-title">Preferences</h4>
+                <div class="sd-prefs">
+                    <div class="sd-pref-item">
+                        <div class="sd-pref-left">
+                            <div class="sd-pref-icon" style="background:rgba(245,158,11,0.12);color:#f59e0b;">🌙</div>
+                            <div><span class="sd-pref-label">Dark Mode</span><span class="sd-pref-sub">Easier on the eyes</span></div>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="dark-mode-toggle">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="sd-pref-item">
+                        <div class="sd-pref-left">
+                            <div class="sd-pref-icon" style="background:rgba(59,130,246,0.12);color:#3b82f6;">🔔</div>
+                            <div><span class="sd-pref-label">Smart Notifications</span><span class="sd-pref-sub">Budget &amp; reminder alerts</span></div>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="notif-toggle" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="sd-pref-item">
+                        <div class="sd-pref-left">
+                            <div class="sd-pref-icon" style="background:rgba(16,185,129,0.12);color:#10b981;">🤖</div>
+                            <div><span class="sd-pref-label">AI Insights</span><span class="sd-pref-sub">Personalized financial tips</span></div>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="ai-toggle" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="sd-pref-item">
+                        <div class="sd-pref-left">
+                            <div class="sd-pref-icon" style="background:rgba(139,92,246,0.12);color:#8b5cf6;">💾</div>
+                            <div><span class="sd-pref-label">Auto Save</span><span class="sd-pref-sub">Save changes instantly</span></div>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="autosave-toggle" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sd-section">
+                <h4 class="sd-section-title">Data Management</h4>
+                <div class="sd-data-actions">
+                    <button class="sd-action-btn" id="export-data">
+                        <span class="sd-action-icon" style="background:rgba(16,185,129,0.12);color:#10b981;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        </span>
+                        <div><span class="sd-action-label">Export Data</span><span class="sd-action-sub">Download JSON backup</span></div>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="sd-action-arrow"><polyline points="9 18 15 12 9 6"/></svg>
+                    </button>
+                    <button class="sd-action-btn" id="import-data">
+                        <span class="sd-action-icon" style="background:rgba(59,130,246,0.12);color:#3b82f6;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                        </span>
+                        <div><span class="sd-action-label">Import Backup</span><span class="sd-action-sub">Restore from JSON file</span></div>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="sd-action-arrow"><polyline points="9 18 15 12 9 6"/></svg>
+                    </button>
+                    <button class="sd-action-btn" id="download-report">
+                        <span class="sd-action-icon" style="background:rgba(245,158,11,0.12);color:#f59e0b;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                        </span>
+                        <div><span class="sd-action-label">Download Expense Report</span><span class="sd-action-sub">CSV summary of all expenses</span></div>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="sd-action-arrow"><polyline points="9 18 15 12 9 6"/></svg>
+                    </button>
+                </div>
+
+                <div class="sd-danger-zone">
+                    <div class="sd-danger-header">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                        Danger Zone
+                    </div>
+                    <button class="sd-danger-btn" id="reset-data">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
+                        Reset All Data
+                        <span class="sd-danger-badge">Irreversible</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="sd-section sd-about">
+                <div class="sd-about-logo">
+                    <svg width="40" height="40" viewBox="0 0 48 48" fill="none">
+                        <defs><linearGradient id="aboutGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#10b981"/><stop offset="100%" style="stop-color:#3b82f6"/></linearGradient></defs>
+                        <circle cx="24" cy="24" r="22" fill="url(#aboutGrad)"/>
+                        <path d="M24 13 L14 18 L24 23 L34 18 Z" fill="white" opacity="0.95"/>
+                        <text x="24" y="35" text-anchor="middle" font-size="13" font-weight="700" fill="white" font-family="Inter,sans-serif">₹</text>
+                    </svg>
+                </div>
+                <h3 class="sd-about-name">CampusCash AI</h3>
+                <p class="sd-about-version">v1.0</p>
+                <p class="sd-about-credit">Designed &amp; Developed by</p>
+                <p class="sd-about-developer">Shivanjali Pandey</p>
+                <div class="sd-about-tags">
+                    <span class="sd-tag">Vanilla JS</span>
+                    <span class="sd-tag">Local Storage</span>
+                    <span class="sd-tag">Chart.js</span>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Edit Setting Modal -->
+    <div id="edit-setting-modal" class="modal">
+        <div class="modal-content small">
+            <div class="modal-header">
+                <h3 id="edit-setting-title">Edit Setting</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="edit-setting-content"></div>
+                <button class="btn-primary full-width" id="save-setting" style="margin-top:16px;">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script3.js"></script>
+</body>
+</html>
